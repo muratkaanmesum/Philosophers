@@ -1,14 +1,17 @@
 #include "Philosophers.h"
-void	test(t_data *data)
+void	test(t_all *all)
 {
-	for (int i = 0; i < 10000000; i++)
+	printf("inside %d\n", all->data->number_of_philosophers);
+	pthread_mutex_lock(&all->data->mutex);
+	for (int i = 0; i < 1000000; i++)
 		;
+	printf("Finished\n");
+	pthread_mutex_unlock(&all->data->mutex);
 }
-void	*func(void *data)
+void	*func(void *all)
 {
-	printf("ASD\n");
-	test();
-	printf("%d", ((t_data *)data)->number_of_philosophers);
+	test(all);
+	printf("%d\n", ((t_all *)all)->data->number_of_philosophers);
 	return (NULL);
 }
 t_data	*get_data(char **argv)
@@ -26,21 +29,21 @@ t_data	*get_data(char **argv)
 		data->must_eat = -1;
 	return (data);
 }
-void	create_threads(pthread_t *thread, t_data *data)
+void	create_threads(pthread_t *thread, t_all *all)
 {
 	int	i;
 
 	i = 0;
-	while (i < data->number_of_philosophers)
+	while (i < all->data->number_of_philosophers)
 	{
-		pthread_create(&thread[i], NULL, func, data);
+		pthread_create(&thread[i], NULL, func, all);
 		i++;
 	}
 }
 int	main(int argc, char *argv[])
 {
 	pthread_t		*thread;
-	t_data			*data;
+	t_all			*all;
 	pthread_mutex_t	mutex;
 
 	if (argc < 4 || argc != 5)
@@ -48,10 +51,14 @@ int	main(int argc, char *argv[])
 		printf("Error: wrong number of arguments\n");
 		return (1);
 	}
+	all = malloc(sizeof(t_all));
 	pthread_mutex_init(&mutex, NULL);
-	data = get_data(argv);
-	thread = malloc(sizeof(pthread_t) * data->number_of_philosophers);
-	create_threads(thread, data);
-	pthread_join(thread, NULL);
+	all->data = get_data(argv);
+	all->data->mutex = mutex;
+	thread = malloc(sizeof(pthread_t) * all->data->number_of_philosophers);
+	create_threads(thread, all);
+	for (int i = 0; i < all->data->number_of_philosophers; i++)
+		pthread_join(thread[i], NULL);
+	pthread_mutex_destroy(&mutex);
 	return (0);
 }
