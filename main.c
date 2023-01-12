@@ -1,17 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/12 23:50:55 by mmesum            #+#    #+#             */
+/*   Updated: 2023/01/13 00:42:26 by mmesum           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Philosophers.h"
-void	test(t_all *all)
+t_philo	*get_philo()
 {
-	printf("inside %d\n", all->data->number_of_philosophers);
-	pthread_mutex_lock(&all->data->mutex);
-	for (int i = 0; i < 1000000; i++)
-		;
-	printf("Finished\n");
-	pthread_mutex_unlock(&all->data->mutex);
+	t_philo		*philo;
+	static int	i;
+
+	philo = malloc(sizeof(t_philo));
+	philo->id = i++;
+	philo->left_fork = 0;
+	philo->right_fork = 0;
+	philo->is_eating = 0;
+	philo->eat_count = 0;
+	philo->last_eat = 0;
+	pthread_mutex_init(philo->forks, NULL);
+	pthread_mutex_init(philo->print, NULL);
+	pthread_mutex_init(philo->death, NULL);
+	return (philo);
 }
-void	*func(void *all)
+void	*philo(void *data)
 {
-	test(all);
-	printf("%d\n", ((t_all *)all)->data->number_of_philosophers);
+	t_data	*s_data;
+	t_philo	*philo;
+
+	s_data = (t_data *)data;
+	pthread_mutex_lock(&s_data->mutex);
+	philo = get_philo();
+	pthread_mutex_unlock(&s_data->mutex);
+	if (s_data->number_of_philosophers % 2 == 0)
+		even_philo();
+	else
+		odd_philo();
 	return (NULL);
 }
 t_data	*get_data(char **argv)
@@ -29,36 +58,35 @@ t_data	*get_data(char **argv)
 		data->must_eat = -1;
 	return (data);
 }
-void	create_threads(pthread_t *thread, t_all *all)
+
+void	create_threads(pthread_t *thread, t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (i < all->data->number_of_philosophers)
+	while (i < data->number_of_philosophers)
 	{
-		pthread_create(&thread[i], NULL, func, all);
+		pthread_create(&thread[i], NULL, philo, data);
 		i++;
 	}
 }
 int	main(int argc, char *argv[])
 {
-	pthread_t		*thread;
-	t_all			*all;
-	pthread_mutex_t	mutex;
+	pthread_t	*thread;
+	t_data		*data;
+	int			i;
 
 	if (argc < 4 || argc != 5)
 	{
 		printf("Error: wrong number of arguments\n");
 		return (1);
 	}
-	all = malloc(sizeof(t_all));
-	pthread_mutex_init(&mutex, NULL);
-	all->data = get_data(argv);
-	all->data->mutex = mutex;
-	thread = malloc(sizeof(pthread_t) * all->data->number_of_philosophers);
-	create_threads(thread, all);
-	for (int i = 0; i < all->data->number_of_philosophers; i++)
+	data = get_data(argv);
+	pthread_mutex_init(&data->mutex, NULL);
+	thread = malloc(sizeof(pthread_t) * data->number_of_philosophers);
+	create_threads(thread, data);
+	i = -1;
+	while (++i < data->number_of_philosophers)
 		pthread_join(thread[i], NULL);
-	pthread_mutex_destroy(&mutex);
 	return (0);
 }
