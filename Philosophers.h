@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 00:21:56 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/16 19:39:31 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/17 07:09:43 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <time.h>
+# include <sys/time.h>
 # include <unistd.h>
 
 typedef struct s_data
@@ -26,13 +26,14 @@ typedef struct s_data
 	int				time_to_die;
 	int				must_eat;
 	struct s_philo	*philos;
+	unsigned long	current_time;
 }					t_data;
 
 typedef struct s_philo
 {
 	int				id;
-	pthread_mutex_t	left_fork;
-	pthread_mutex_t	right_fork;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 	int				eat_count;
 	int				last_eat;
 	int				*is_eating;
@@ -46,4 +47,6 @@ int					ft_atoi(char *str);
 t_philo				*init_philos(t_data *data);
 t_data				*init_data(char **argv);
 void				init_mutexes(t_data *data);
+unsigned long		get_current_time(void);
+unsigned long		get_passed_time(unsigned long begin);
 #endif

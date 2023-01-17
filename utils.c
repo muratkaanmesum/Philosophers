@@ -1,8 +1,10 @@
+#include "Philosophers.h"
+
 int	ft_atoi(char *str)
 {
-	int i;
-	int res;
-	int sign;
+	int	i;
+	int	res;
+	int	sign;
 
 	i = 0;
 	res = 0;
@@ -22,4 +24,17 @@ int	ft_atoi(char *str)
 		i++;
 	}
 	return (res * sign);
+}
+
+unsigned long	get_current_time(void)
+{
+	struct timeval	t;
+
+	gettimeofday(&t, NULL);
+	return (t.tv_sec * 1000) + (t.tv_usec / 1000);
+}
+
+unsigned long	get_passed_time(unsigned long begin)
+{
+	return (get_current_time() - begin);
 }

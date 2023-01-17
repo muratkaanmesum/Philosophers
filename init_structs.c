@@ -24,13 +24,13 @@ t_philo	*init_philos(t_data *data)
 	i = -1;
 	while (++i < data->number_of_philosophers)
 	{
-		philos[i].id = i;
+		philos[i].id = i + 1;
 		philos[i].eat_count = 0;
 		philos[i].last_eat = 0;
 		philos[i].is_eating = 0;
 		philos[i].data = data;
-		i++;
 	}
+	data->philos = philos;
 	return (philos);
 }
 
@@ -41,17 +41,16 @@ void	init_mutexes(t_data *data)
 
 	forks = malloc(sizeof(pthread_mutex_t) * data->number_of_philosophers);
 	i = -1;
-	while (i < data->number_of_philosophers)
-	{
-		pthread_mutex_init(&forks[i], 0);
-		i++;
-	}
+	while (++i < data->number_of_philosophers)
+		pthread_mutex_init(&forks[i], NULL);
 	i = -1;
-	while (i < data->number_of_philosophers)
+	while (++i < data->number_of_philosophers)
 	{
-		data->philos[i].left_fork = forks[i];
-		data->philos[i].right_fork = forks[(i + 1)
-			% data->number_of_philosophers];
-		i++;
+		data->philos[i].left_fork = &forks[i];
+		if (i - 1 < 0)
+			data->philos[i].right_fork = &forks[data->number_of_philosophers
+				- 1];
+		else
+			data->philos[i].right_fork = &forks[i - 1];
 	}
 }
