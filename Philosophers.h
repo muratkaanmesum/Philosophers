@@ -6,7 +6,7 @@
 /*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 00:21:56 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/17 07:09:43 by kali             ###   ########.fr       */
+/*   Updated: 2023/01/17 10:47:13 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_data
 	int				time_to_die;
 	int				must_eat;
 	struct s_philo	*philos;
-	unsigned long	current_time;
+	unsigned long	start_time;
 }					t_data;
 
 typedef struct s_philo
@@ -49,4 +49,7 @@ t_data				*init_data(char **argv);
 void				init_mutexes(t_data *data);
 unsigned long		get_current_time(void);
 unsigned long		get_passed_time(unsigned long begin);
+void				print_message(t_philo *philo, char *message);
+void				smart_sleep(int time);
+void				eating(t_philo *philo);
 #endif

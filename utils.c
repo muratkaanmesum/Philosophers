@@ -38,3 +38,18 @@ unsigned long	get_passed_time(unsigned long begin)
 {
 	return (get_current_time() - begin);
 }
+
+void	print_message(t_philo *philo, char *message)
+{
+	printf("%llu %d %s\n", get_passed_time(philo->data->start_time), philo->id,
+			message);
+}
+
+void	smart_sleep(int time)
+{
+	unsigned long	begin;
+
+	begin = get_current_time();
+	while (get_passed_time(begin) < time)
+		usleep(100);
+}
