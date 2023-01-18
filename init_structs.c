@@ -9,6 +9,7 @@ t_data	*init_data(char **argv)
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
+	data->is_dead = 0;
 	if (argv[5])
 		data->must_eat = ft_atoi(argv[5]);
 	else
@@ -40,6 +41,8 @@ void	init_mutexes(t_data *data)
 	pthread_mutex_t	*forks;
 
 	forks = malloc(sizeof(pthread_mutex_t) * data->number_of_philosophers);
+	pthread_mutex_init(&data->print, NULL);
+	pthread_mutex_init(&data->death, NULL);
 	i = -1;
 	while (++i < data->number_of_philosophers)
 		pthread_mutex_init(&forks[i], NULL);

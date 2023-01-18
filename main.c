@@ -6,7 +6,7 @@
 /*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 23:50:55 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/17 10:58:49 by kali             ###   ########.fr       */
+/*   Updated: 2023/01/18 10:39:26 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*philo(void *data)
 	philo = data;
 	if (philo->id % 2 == 0)
 		usleep(10000);
-	while (1)
+	while (!philo->data->is_dead)
 	{
 		eating(philo);
 		print_message(philo, "Is sleeping");
@@ -37,7 +37,7 @@ void	*philo(void *data)
 		if (check_if_dead(philo))
 		{
 			print_message(philo, "Is dead");
-			return (NULL);
+			philo->data->is_dead = 1;
 		}
 	}
 	return (NULL);
@@ -68,8 +68,8 @@ int	main(int argc, char *argv[])
 	data = init_data(argv);
 	philos = init_philos(data);
 	init_mutexes(data);
-	create_threads(philos);
 	data->start_time = get_current_time();
+	create_threads(philos);
 	for (int i = 0; i < data->number_of_philosophers; i++)
 		pthread_join(philos[i].thread, NULL);
 	return (0);

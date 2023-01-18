@@ -6,7 +6,7 @@
 /*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 00:21:56 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/17 10:47:13 by kali             ###   ########.fr       */
+/*   Updated: 2023/01/18 10:38:41 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ typedef struct s_data
 	int				must_eat;
 	struct s_philo	*philos;
 	unsigned long	start_time;
+	pthread_mutex_t	print;
+	pthread_mutex_t	death;
+	int				is_dead;
 }					t_data;
 
 typedef struct s_philo
@@ -35,12 +38,10 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	int				eat_count;
-	int				last_eat;
+	unsigned long	last_eat;
 	int				*is_eating;
 	t_data			*data;
 	pthread_t		thread;
-	pthread_mutex_t	*print;
-	pthread_mutex_t	*death;
 }					t_philo;
 
 int					ft_atoi(char *str);
