@@ -41,8 +41,9 @@ unsigned long	get_passed_time(unsigned long begin)
 
 void	print_message(t_philo *philo, char *message)
 {
-	printf("%llu %d %s\n", get_passed_time(philo->data->start_time), philo->id,
-			message);
+	if (philo->data->is_dead == 0)
+		printf("%lu %d %s\n", get_passed_time(philo->data->start_time),
+				philo->id, message);
 }
 
 void	smart_sleep(int time)
@@ -51,7 +52,5 @@ void	smart_sleep(int time)
 
 	begin = get_current_time();
 	while (get_passed_time(begin) <= time)
-	{
 		usleep(100);
-	}
 }

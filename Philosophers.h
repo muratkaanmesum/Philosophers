@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 00:21:56 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/18 10:38:41 by kali             ###   ########.fr       */
+/*   Updated: 2023/01/19 17:08:33 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,5 @@ unsigned long		get_passed_time(unsigned long begin);
 void				print_message(t_philo *philo, char *message);
 void				smart_sleep(int time);
 void				eating(t_philo *philo);
+int					check_all_cases(t_data *data);
 #endif
