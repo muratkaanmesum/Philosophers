@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 00:21:56 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/19 17:08:33 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/19 18:43:47 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,6 @@ void				print_message(t_philo *philo, char *message);
 void				smart_sleep(int time);
 void				eating(t_philo *philo);
 int					check_all_cases(t_data *data);
+int					check_all_eat(t_data *data);
+int					check_if_dead(t_data *data);
 #endif

@@ -27,7 +27,7 @@ t_philo	*init_philos(t_data *data)
 	{
 		philos[i].id = i + 1;
 		philos[i].eat_count = 0;
-		philos[i].last_eat = 0;
+		philos[i].last_eat = get_current_time();
 		philos[i].is_eating = 0;
 		philos[i].data = data;
 	}

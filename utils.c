@@ -51,6 +51,6 @@ void	smart_sleep(int time)
 	unsigned long	begin;
 
 	begin = get_current_time();
-	while (get_passed_time(begin) <= time)
+	while (get_passed_time(begin) <= (unsigned long)time)
 		usleep(100);
 }

@@ -21,7 +21,7 @@ int	check_if_dead(t_data *data)
 	i = -1;
 	while (++i < data->number_of_philosophers)
 	{
-		if (get_passed_time(data->philos[i].last_eat) > data->time_to_die)
+		if (get_passed_time(data->philos[i].last_eat) > (unsigned long)data->time_to_die)
 		{
 			print_message(&data->philos[i], "Is dead");
 			data->is_dead = 1;

@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 23:50:55 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/19 17:41:44 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/20 00:21:58 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*philo(void *data)
 	philo = data;
 	if (philo->id % 2 == 0)
 		usleep(10000);
-	while (!philo->data->is_dead)
+	while (philo->data->is_dead == 0)
 	{
 		eating(philo);
 		pthread_mutex_lock(&philo->data->print);
@@ -29,8 +29,6 @@ void	*philo(void *data)
 		pthread_mutex_lock(&philo->data->print);
 		print_message(philo, "Is thinking");
 		pthread_mutex_unlock(&philo->data->print);
-		if (check_all_cases(philo->data))
-			break ;
 	}
 	return (NULL);
 }
@@ -47,7 +45,9 @@ void	create_threads(t_philo *philos)
 	}
 	while (1)
 	{
-		if (check_all_cases(philos->data))
+		if (check_all_eat(philos->data))
+			break ;
+		if (check_if_dead(philos->data))
 			break ;
 	}
 }
