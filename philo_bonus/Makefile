@@ -7,7 +7,7 @@
 #                                     CONFIG                                   #
 ################################################################################
 
-NAME        := philo
+NAME        := philo_bonus
 CC        := gcc
 FLAGS    := -Wall -Wextra -Werror
 ################################################################################
@@ -16,6 +16,7 @@ FLAGS    := -Wall -Wextra -Werror
 
 SRCS        :=      utils.c \
                           main.c \
+						  init_structs.c\
 
 OBJS        := $(SRCS:.c=.o)
 
