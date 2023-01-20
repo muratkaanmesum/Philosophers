@@ -42,7 +42,7 @@ void	init_mutexes(t_data *data)
 
 	forks = malloc(sizeof(pthread_mutex_t) * data->number_of_philosophers);
 	pthread_mutex_init(&data->print, NULL);
-	pthread_mutex_init(&data->death, NULL);
+	pthread_mutex_init(&data->eat, NULL);
 	i = -1;
 	while (++i < data->number_of_philosophers)
 		pthread_mutex_init(&forks[i], NULL);

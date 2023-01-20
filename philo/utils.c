@@ -41,9 +41,15 @@ unsigned long	get_passed_time(unsigned long begin)
 
 void	print_message(t_philo *philo, char *message)
 {
-	if (philo->data->is_dead == 0)
-		printf("%lu %d %s\n", get_passed_time(philo->data->start_time),
-				philo->id, message);
+	pthread_mutex_lock(&philo->data->print);
+	if (philo->data->is_dead != 0)
+	{
+		pthread_mutex_unlock(&philo->data->print);
+		return ;
+	}
+	printf("%lu %d %s\n", get_passed_time(philo->data->start_time), philo->id,
+			message);
+	pthread_mutex_unlock(&philo->data->print);
 }
 
 void	smart_sleep(int time)

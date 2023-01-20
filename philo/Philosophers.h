@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 00:21:56 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/19 18:43:47 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/20 09:09:11 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_data
 	struct s_philo	*philos;
 	unsigned long	start_time;
 	pthread_mutex_t	print;
-	pthread_mutex_t	death;
+	pthread_mutex_t	eat;
 	int				is_dead;
 }					t_data;
 

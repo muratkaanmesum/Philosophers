@@ -7,8 +7,10 @@ void	eating(t_philo *philo)
 	pthread_mutex_lock(philo->right_fork);
 	print_message(philo, "Has taken a fork");
 	philo->last_eat = get_current_time();
-	print_message(philo, "Is eating");
+	pthread_mutex_lock(&philo->data->eat);
 	philo->eat_count++;
+	pthread_mutex_unlock(&philo->data->eat);
+	print_message(philo, "Is eating");
 	smart_sleep(philo->data->time_to_eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
@@ -37,16 +39,14 @@ int	check_all_eat(t_data *data)
 
 	if (data->must_eat == -1)
 		return (0);
-	i = 0;
-	while (i < data->number_of_philosophers
-		&& data->philos[i].eat_count >= data->must_eat)
-		i++;
-	if (i == data->number_of_philosophers)
+	i = -1;
+	while (++i < data->number_of_philosophers)
 	{
-		data->is_dead = 1;
-		return (1);
+		if (data->philos[i].eat_count < data->must_eat)
+			return (0);
 	}
-	return (0);
+	data->is_dead = 1;
+	return (1);
 }
 
 int	check_all_cases(t_data *data)
