@@ -1,3 +1,4 @@
 *.o
 .vscode
 /philo_bonus/philo_bonus
+/philo/philo
