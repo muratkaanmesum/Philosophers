@@ -56,4 +56,5 @@ void	init_mutexes(t_data *data)
 		else
 			data->philos[i].right_fork = &forks[i - 1];
 	}
+	data->forks = forks;
 }

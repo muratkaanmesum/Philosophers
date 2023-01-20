@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 23:50:55 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/20 09:54:25 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/20 10:17:43 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,27 @@ void	create_threads(t_philo *philos)
 	}
 }
 
+void	finish_all(t_philo *philos)
+{
+	int	i;
+
+	i = 0;
+	while (i < philos->data->number_of_philosophers)
+	{
+		pthread_join(philos[i].thread, NULL);
+		i++;
+	}
+	i = 0;
+	while (i < philos->data->number_of_philosophers)
+	{
+		pthread_mutex_destroy(&(philos->data->forks[i]));
+		i++;
+	}
+	free(philos->data->forks);
+	free(philos->data);
+	free(philos);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_data	*data;
@@ -61,7 +82,6 @@ int	main(int argc, char *argv[])
 	init_mutexes(data);
 	data->start_time = get_current_time();
 	create_threads(philos);
-	for (int i = 0; i < data->number_of_philosophers; i++)
-		pthread_join(philos[i].thread, NULL);
+	finish_all(philos);
 	return (0);
 }
