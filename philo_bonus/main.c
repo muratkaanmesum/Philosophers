@@ -6,27 +6,26 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 23:50:55 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/20 10:11:06 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/20 11:12:07 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
-void	*philo(void *data)
+void	philo(t_philo *philo)
 {
-	t_philo	*philo;
+	printf("philo.id %d", philo->id);
+}
+void	create_processes(t_data *data)
+{
+	int	i;
 
-	philo = data;
-	if (philo->id % 2 == 0)
-		usleep(10000);
-	while (philo->data->is_dead == 0)
+	i = -1;
+	while (++i < data->number_of_philosophers)
 	{
-		eating(philo);
-		print_message(philo, "Is sleeping");
-		smart_sleep(philo->data->time_to_sleep);
-		print_message(philo, "Is thinking");
+		if (fork() == 0)
+			philo(&data->philos[i]);
 	}
-	return (NULL);
+	i = -1;
 }
 
 int	main(int argc, char *argv[])
@@ -42,5 +41,6 @@ int	main(int argc, char *argv[])
 	data = init_data(argv);
 	philos = init_philos(data);
 	data->start_time = get_current_time();
+	create_processes(data);
 	return (0);
 }
