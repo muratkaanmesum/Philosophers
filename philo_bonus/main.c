@@ -6,14 +6,14 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 23:50:55 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/20 11:12:07 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/20 11:16:55 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 void	philo(t_philo *philo)
 {
-	printf("philo.id %d", philo->id);
+	printf("philo.id %d\n", philo->id);
 }
 void	create_processes(t_data *data)
 {
