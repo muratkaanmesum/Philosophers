@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 23:50:55 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/20 11:16:55 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/20 11:21:33 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	create_processes(t_data *data)
 		if (fork() == 0)
 			philo(&data->philos[i]);
 	}
-	i = -1;
 }
 
 int	main(int argc, char *argv[])
