@@ -3,7 +3,6 @@
 t_data	*init_data(char **argv)
 {
 	t_data	*data;
-	sem_t	*forks;
 
 	data = malloc(sizeof(t_data));
 	data->number_of_philosophers = ft_atoi(argv[1]);
@@ -11,8 +10,8 @@ t_data	*init_data(char **argv)
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
 	data->is_dead = 0;
-	forks = sem_open("/forks", O_CREAT, 0777, data->number_of_philosophers);
-	data->forks = forks;
+	data->forks = sem_open("/forks", O_CREAT, 0777,
+			data->number_of_philosophers);
 	if (argv[5])
 		data->must_eat = ft_atoi(argv[5]);
 	else

@@ -6,16 +6,18 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 16:03:21 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/23 17:36:01 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/23 17:52:21 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 void	eating(t_philo *philo)
 {
+	int	i;
+
+	sem_wait(philo->data->forks);
 	sem_wait(philo->data->forks);
 	print_message(philo, "has taken fork");
-	sem_wait(philo->data->forks);
 	print_message(philo, "has taken fork");
 	philo->last_eat = get_current_time();
 	smart_sleep(philo->data->time_to_eat);
