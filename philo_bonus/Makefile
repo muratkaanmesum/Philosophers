@@ -17,6 +17,7 @@ FLAGS    := -Wall -Wextra -Werror
 SRCS        :=      utils.c \
                           main.c \
 						  init_structs.c\
+						  philo_actions.c
 
 OBJS        := $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 00:21:56 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/20 11:13:49 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/23 16:53:23 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_data
 	struct s_philo	*philos;
 	unsigned long	start_time;
 	int				is_dead;
+	sem_t			*forks;
 }					t_data;
 
 typedef struct s_philo
@@ -47,4 +48,8 @@ t_data				*init_data(char **argv);
 void				init_mutexes(t_data *data);
 unsigned long		get_current_time(void);
 unsigned long		get_passed_time(unsigned long begin);
+void				print_message(t_philo *philo, char *message);
+void				smart_sleep(int time);
+int					check_all_cases(t_data *data);
+void				eating(t_philo *philo);
 #endif
