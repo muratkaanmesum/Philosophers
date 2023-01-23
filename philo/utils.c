@@ -1,4 +1,16 @@
-#include "Philosophers.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/23 20:45:57 by mmesum            #+#    #+#             */
+/*   Updated: 2023/01/23 20:59:33 by mmesum           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
 
 int	ft_atoi(char *str)
 {
@@ -31,7 +43,7 @@ unsigned long	get_current_time(void)
 	struct timeval	t;
 
 	gettimeofday(&t, NULL);
-	return (t.tv_sec * 1000) + (t.tv_usec / 1000);
+	return ((t.tv_sec * 1000) + (t.tv_usec / 1000));
 }
 
 unsigned long	get_passed_time(unsigned long begin)
@@ -48,7 +60,7 @@ void	print_message(t_philo *philo, char *message)
 		return ;
 	}
 	printf("%lu %d %s\n", get_passed_time(philo->data->start_time), philo->id,
-			message);
+		message);
 	pthread_mutex_unlock(&philo->data->print);
 }
 

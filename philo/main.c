@@ -6,11 +6,11 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 23:50:55 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/20 10:17:43 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/23 21:32:10 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Philosophers.h"
+#include "philo.h"
 
 void	*philo(void *data)
 {
@@ -77,7 +77,14 @@ int	main(int argc, char *argv[])
 		printf("Error: wrong number of arguments\n");
 		return (1);
 	}
-	data = init_data(argv);
+	data = init_data(argc, argv);
+	if (data->number_of_philosophers == 1)
+	{
+		printf("0 1 philo is dead");
+		return (0);
+	}
+	if (data == NULL)
+		return (1);
 	philos = init_philos(data);
 	init_mutexes(data);
 	data->start_time = get_current_time();

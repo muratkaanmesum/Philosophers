@@ -1,4 +1,16 @@
-#include "Philosophers.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_actions.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/23 20:45:54 by mmesum            #+#    #+#             */
+/*   Updated: 2023/01/23 21:13:20 by mmesum           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
 
 void	eating(t_philo *philo)
 {
@@ -6,8 +18,8 @@ void	eating(t_philo *philo)
 	print_message(philo, "Has taken a fork");
 	pthread_mutex_lock(philo->right_fork);
 	print_message(philo, "Has taken a fork");
-	philo->last_eat = get_current_time();
 	pthread_mutex_lock(&philo->data->eat);
+	philo->last_eat = get_current_time();
 	philo->eat_count++;
 	pthread_mutex_unlock(&philo->data->eat);
 	print_message(philo, "Is eating");
@@ -23,7 +35,8 @@ int	check_if_dead(t_data *data)
 	i = -1;
 	while (++i < data->number_of_philosophers)
 	{
-		if (get_passed_time(data->philos[i].last_eat) > (unsigned long)data->time_to_die)
+		if ((int)(get_passed_time(data->philos[i].last_eat)) >
+			data->time_to_die)
 		{
 			print_message(&data->philos[i], "Is dead");
 			data->is_dead = 1;

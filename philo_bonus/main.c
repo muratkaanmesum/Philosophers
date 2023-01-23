@@ -6,25 +6,31 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 23:50:55 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/23 19:36:00 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/23 20:42:14 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+void	take_forks(t_philo *philo)
+{
+	sem_wait(philo->data->forks);
+	print_message(philo, "has taken a fork");
+	sem_wait(philo->data->forks);
+	print_message(philo, "has taken a fork");
+}
+
 void	philo(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
-		usleep(10000);
-	while (philo->data->is_dead != 1
-		&& philo->eat_count != philo->data->must_eat)
+	while (1)
 	{
+		take_forks(philo);
 		eating(philo);
 		print_message(philo, "is sleeping");
 		smart_sleep(philo->data->time_to_sleep);
 		print_message(philo, "is thinking");
 	}
-	exit(1);
 }
+
 void	create_processes(t_data *data, int i)
 {
 	pid_t	pid;
@@ -67,18 +73,10 @@ int	main(int argc, char *argv[])
 	}
 	while (1)
 	{
-		if (check_all_cases(data) == 1)
+		if (check_all_cases(data))
 		{
-			sem_close(data->forks);
-			sem_close(data->print);
-			sem_close(data->dead);
-			sem_close(data->eat);
-			sem_unlink("/forks");
-			sem_unlink("/print");
-			sem_unlink("/dead");
-			sem_unlink("/eat");
 			close_processes(data);
-			exit(1);
+			return (0);
 		}
 	}
 	return (0);

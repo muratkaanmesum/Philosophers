@@ -1,10 +1,24 @@
-#include "Philosophers.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_structs.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/23 20:45:50 by mmesum            #+#    #+#             */
+/*   Updated: 2023/01/23 23:16:33 by mmesum           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-t_data	*init_data(char **argv)
+#include "philo.h"
+
+t_data	*init_data(int argc, char **argv)
 {
 	t_data	*data;
 
 	data = malloc(sizeof(t_data));
+	if (check_data(argc, argv) == 0)
+		return (NULL);
 	data->number_of_philosophers = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
@@ -16,6 +30,7 @@ t_data	*init_data(char **argv)
 		data->must_eat = -1;
 	return (data);
 }
+
 t_philo	*init_philos(t_data *data)
 {
 	t_philo	*philos;
@@ -28,7 +43,6 @@ t_philo	*init_philos(t_data *data)
 		philos[i].id = i + 1;
 		philos[i].eat_count = 0;
 		philos[i].last_eat = get_current_time();
-		philos[i].is_eating = 0;
 		philos[i].data = data;
 	}
 	data->philos = philos;
