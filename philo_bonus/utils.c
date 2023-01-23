@@ -41,12 +41,15 @@ unsigned long	get_passed_time(unsigned long begin)
 
 void	print_message(t_philo *philo, char *message)
 {
+	sem_wait(philo->data->print);
 	if (philo->data->is_dead != 0)
 	{
+		sem_post(philo->data->print);
 		return ;
 	}
 	printf("%lu %d %s\n", get_passed_time(philo->data->start_time), philo->id,
 			message);
+	sem_post(philo->data->print);
 }
 
 void	smart_sleep(int time)

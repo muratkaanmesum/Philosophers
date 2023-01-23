@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 23:50:55 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/23 17:46:43 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/23 19:36:00 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@ void	philo(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
 		usleep(10000);
-	while (philo->data->is_dead != 1)
+	while (philo->data->is_dead != 1
+		&& philo->eat_count != philo->data->must_eat)
 	{
 		eating(philo);
 		print_message(philo, "is sleeping");
 		smart_sleep(philo->data->time_to_sleep);
 		print_message(philo, "is thinking");
 	}
+	exit(1);
 }
 void	create_processes(t_data *data, int i)
 {
@@ -31,7 +33,17 @@ void	create_processes(t_data *data, int i)
 	if (pid == 0)
 		philo(&data->philos[i]);
 }
+void	close_processes(t_data *data)
+{
+	int	i;
 
+	i = 0;
+	while (i < data->number_of_philosophers)
+	{
+		kill(0, SIGINT);
+		i++;
+	}
+}
 int	main(int argc, char *argv[])
 {
 	t_data	*data;
@@ -45,6 +57,7 @@ int	main(int argc, char *argv[])
 	}
 	data = init_data(argv);
 	philos = init_philos(data);
+	init_sem(data);
 	data->start_time = get_current_time();
 	i = 0;
 	while (i < data->number_of_philosophers)
@@ -55,7 +68,18 @@ int	main(int argc, char *argv[])
 	while (1)
 	{
 		if (check_all_cases(data) == 1)
+		{
+			sem_close(data->forks);
+			sem_close(data->print);
+			sem_close(data->dead);
+			sem_close(data->eat);
+			sem_unlink("/forks");
+			sem_unlink("/print");
+			sem_unlink("/dead");
+			sem_unlink("/eat");
+			close_processes(data);
 			exit(1);
+		}
 	}
 	return (0);
 }

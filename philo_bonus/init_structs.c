@@ -9,9 +9,6 @@ t_data	*init_data(char **argv)
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
-	data->is_dead = 0;
-	data->forks = sem_open("/forks", O_CREAT, 0777,
-			data->number_of_philosophers);
 	if (argv[5])
 		data->must_eat = ft_atoi(argv[5]);
 	else
@@ -30,9 +27,17 @@ t_philo	*init_philos(t_data *data)
 		philos[i].id = i + 1;
 		philos[i].eat_count = 0;
 		philos[i].last_eat = get_current_time();
-		philos[i].is_eating = 0;
 		philos[i].data = data;
 	}
 	data->philos = philos;
 	return (philos);
+}
+
+void	init_sem(t_data *data)
+{
+	data->forks = sem_open("/forks", O_CREAT, 0644,
+			data->number_of_philosophers);
+	data->print = sem_open("/print", O_CREAT, 0644, 1);
+	data->dead = sem_open("/dead", O_CREAT, 0644, 1);
+	data->eat = sem_open("/eat", O_CREAT, 0644, 1);
 }

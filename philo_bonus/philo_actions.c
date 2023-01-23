@@ -6,28 +6,32 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 16:03:21 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/23 17:52:21 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/23 19:39:55 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 void	eating(t_philo *philo)
 {
-	int	i;
-
 	sem_wait(philo->data->forks);
+	print_message(philo, "has taken a fork");
 	sem_wait(philo->data->forks);
-	print_message(philo, "has taken fork");
-	print_message(philo, "has taken fork");
+	print_message(philo, "has taken a fork");
 	philo->last_eat = get_current_time();
+	sem_wait(philo->data->eat);
+	philo->eat_count++;
+	sem_post(philo->data->eat);
+	print_message(philo, "is eating");
 	smart_sleep(philo->data->time_to_eat);
 	sem_post(philo->data->forks);
 	sem_post(philo->data->forks);
 }
+
 int	check_if_dead(t_data *data)
 {
 	int	i;
 
+	sem_wait(data->dead);
 	i = -1;
 	while (++i < data->number_of_philosophers)
 	{
@@ -38,6 +42,7 @@ int	check_if_dead(t_data *data)
 			return (1);
 		}
 	}
+	sem_post(data->dead);
 	return (0);
 }
 
