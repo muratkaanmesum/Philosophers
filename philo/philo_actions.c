@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:45:54 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/24 12:34:18 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/24 15:27:26 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ int	check_if_dead(t_data *data)
 		{
 			print_message(&data->philos[i], "Is dead");
 			data->is_dead = 1;
+			pthread_mutex_unlock(&data->eat);
 			return (1);
 		}
 		pthread_mutex_unlock(&data->eat);
-		usleep(100);
 	}
 	return (0);
 }
@@ -74,8 +74,6 @@ int	check_all_eat(t_data *data)
 int	check_all_cases(t_data *data)
 {
 	if (check_if_dead(data) == 1 || check_all_eat(data) == 1)
-	{
 		return (1);
-	}
 	return (0);
 }

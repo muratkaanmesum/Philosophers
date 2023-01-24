@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 23:50:55 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/24 12:34:29 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/24 15:28:32 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	create_threads(t_philo *philos)
 	i = 0;
 	while (i < philos->data->number_of_philosophers)
 	{
-		pthread_create(&(philos[i].thread), NULL, philo, &philos[i]);
+		pthread_create(&(philos[i].thread), NULL, &philo, &philos[i]);
 		i++;
 	}
 	while (1)
