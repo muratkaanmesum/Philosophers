@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 00:21:56 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/24 12:51:57 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/24 13:25:17 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_philo
 	pid_t			pid;
 }					t_philo;
 
-# define DEBUG printf("DEBUG: %s:%d:%s(): ", __FILE__, __LINE__, __func__);
+# define DEBUG printf("DEBUG: %s:%d:%s():\n ", __FILE__, __LINE__, __func__);
 int					ft_atoi(char *str);
 void				init_philos(t_data *data);
 t_data				*init_data(char **argv);

@@ -6,11 +6,12 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 16:03:21 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/24 12:52:42 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/24 13:18:49 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
 void	eating(t_philo *philo)
 {
 	sem_wait(philo->data->forks);
