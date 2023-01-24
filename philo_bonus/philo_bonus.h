@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 00:21:56 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/23 19:01:14 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/24 12:51:57 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_data
 	sem_t			*forks;
 	sem_t			*print;
 	sem_t			*eat;
-	sem_t			*dead;
 }					t_data;
 
 typedef struct s_philo
@@ -42,18 +41,20 @@ typedef struct s_philo
 	int				eat_count;
 	unsigned long	last_eat;
 	t_data			*data;
+	pthread_t		dead_thread;
 	pid_t			pid;
 }					t_philo;
+
 # define DEBUG printf("DEBUG: %s:%d:%s(): ", __FILE__, __LINE__, __func__);
 int					ft_atoi(char *str);
-t_philo				*init_philos(t_data *data);
+void				init_philos(t_data *data);
 t_data				*init_data(char **argv);
-void				init_mutexes(t_data *data);
 unsigned long		get_current_time(void);
 unsigned long		get_passed_time(unsigned long begin);
 void				print_message(t_philo *philo, char *message);
-void				smart_sleep(int time);
+void				smart_sleep(int time, t_data *data);
 int					check_all_cases(t_data *data);
 void				eating(t_philo *philo);
 void				init_sem(t_data *data);
+int					check_all_eat(t_data *data);
 #endif

@@ -15,29 +15,31 @@ t_data	*init_data(char **argv)
 		data->must_eat = -1;
 	return (data);
 }
-t_philo	*init_philos(t_data *data)
+void	init_philos(t_data *data)
 {
 	t_philo	*philos;
 	int		i;
 
+	i = 0;
 	philos = malloc(sizeof(t_philo) * data->number_of_philosophers);
-	i = -1;
-	while (++i < data->number_of_philosophers)
+	while (i < data->number_of_philosophers)
 	{
 		philos[i].id = i + 1;
-		philos[i].eat_count = 0;
-		philos[i].last_eat = get_current_time();
 		philos[i].data = data;
+		philos[i].last_eat = get_current_time();
+		philos[i].eat_count = 0;
+		i++;
 	}
 	data->philos = philos;
-	return (philos);
 }
 
 void	init_sem(t_data *data)
 {
-	data->forks = sem_open("/forks", O_CREAT, 0644,
+	sem_unlink("/forks");
+	sem_unlink("/print");
+	sem_unlink("/eat");
+	data->forks = sem_open("/forks", O_CREAT, 0777,
 			data->number_of_philosophers);
-	data->print = sem_open("/print", O_CREAT, 0644, 1);
-	data->dead = sem_open("/dead", O_CREAT, 0644, 1);
-	data->eat = sem_open("/eat", O_CREAT, 0644, 1);
+	data->print = sem_open("/print", O_CREAT, 0777, 1);
+	data->eat = sem_open("/eat", O_CREAT, 0777, 1);
 }

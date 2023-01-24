@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 00:21:56 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/23 23:16:29 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/24 12:17:18 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void				init_mutexes(t_data *data);
 unsigned long		get_current_time(void);
 unsigned long		get_passed_time(unsigned long begin);
 void				print_message(t_philo *philo, char *message);
-void				smart_sleep(int time);
+void				smart_sleep(int time, t_data *data);
 void				eating(t_philo *philo);
 int					check_all_cases(t_data *data);
 int					check_all_eat(t_data *data);

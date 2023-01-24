@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:45:57 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/23 20:59:33 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/24 12:18:18 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,15 @@ void	print_message(t_philo *philo, char *message)
 		return ;
 	}
 	printf("%lu %d %s\n", get_passed_time(philo->data->start_time), philo->id,
-		message);
+			message);
 	pthread_mutex_unlock(&philo->data->print);
 }
 
-void	smart_sleep(int time)
+void	smart_sleep(int time, t_data *data)
 {
 	unsigned long	begin;
 
 	begin = get_current_time();
-	while (get_passed_time(begin) <= (unsigned long)time)
+	while (get_passed_time(begin) <= (unsigned long)time && data->is_dead == 0)
 		usleep(100);
 }

@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:45:50 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/23 23:16:33 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/24 10:05:57 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_data	*init_data(int argc, char **argv)
 	if (check_data(argc, argv) == 0)
 		return (NULL);
 	data->number_of_philosophers = ft_atoi(argv[1]);
+	if (data->number_of_philosophers == 0)
+		return (NULL);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);

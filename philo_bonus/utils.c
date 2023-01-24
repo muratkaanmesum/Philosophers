@@ -52,11 +52,11 @@ void	print_message(t_philo *philo, char *message)
 	sem_post(philo->data->print);
 }
 
-void	smart_sleep(int time)
+void	smart_sleep(int time, t_data *data)
 {
 	unsigned long	begin;
 
 	begin = get_current_time();
-	while (get_passed_time(begin) <= (unsigned long)time)
+	while (get_passed_time(begin) <= (unsigned long)time && data->is_dead == 0)
 		usleep(100);
 }

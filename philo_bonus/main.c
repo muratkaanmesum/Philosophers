@@ -6,55 +6,104 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 23:50:55 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/23 20:42:14 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/24 13:00:52 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-void	take_forks(t_philo *philo)
+
+void	*is_dead(void *input)
 {
-	sem_wait(philo->data->forks);
-	print_message(philo, "has taken a fork");
-	sem_wait(philo->data->forks);
-	print_message(philo, "has taken a fork");
+	t_philo	*philo;
+
+	philo = input;
+	while (1)
+	{
+		sem_wait(philo->data->eat);
+		if (get_passed_time(philo->last_eat) > (unsigned long)philo->data->time_to_die)
+		{
+			print_message(philo, "is dead");
+			philo->data->is_dead = 1;
+			return (0);
+		}
+		sem_post(philo->data->eat);
+		usleep(1000);
+		if (philo->data->is_dead)
+			break ;
+	}
+	return (NULL);
 }
 
 void	philo(t_philo *philo)
 {
-	while (1)
+	pthread_create(&philo->dead_thread, NULL, &is_dead, philo);
+	pthread_detach(philo->dead_thread);
+	if (philo->id % 2 == 0)
+		usleep(10000);
+	while (philo->data->is_dead == 0)
 	{
-		take_forks(philo);
 		eating(philo);
+		if (philo->eat_count >= philo->data->must_eat
+			&& philo->data->must_eat != -1)
+			break ;
 		print_message(philo, "is sleeping");
-		smart_sleep(philo->data->time_to_sleep);
+		smart_sleep(philo->data->time_to_sleep, philo->data);
 		print_message(philo, "is thinking");
 	}
+	pthread_join(philo->dead_thread, NULL);
+	if (philo->data->is_dead)
+		exit(1);
+	exit(0);
 }
 
-void	create_processes(t_data *data, int i)
+void	create_processes(t_data *data)
 {
 	pid_t	pid;
-
-	pid = fork();
-	if (pid == 0)
-		philo(&data->philos[i]);
-}
-void	close_processes(t_data *data)
-{
-	int	i;
+	int		i;
 
 	i = 0;
 	while (i < data->number_of_philosophers)
 	{
-		kill(0, SIGINT);
+		pid = fork();
+		if (pid == 0)
+		{
+			data->philos[i].pid = pid;
+			philo(&data->philos[i]);
+		}
 		i++;
+		usleep(100);
 	}
 }
+
+void	close_processes(t_data *data)
+{
+	int	i;
+	int	ret;
+
+	i = 0;
+	while (i < data->number_of_philosophers)
+	{
+		waitpid(-1, &ret, 0);
+		if (ret != 0)
+		{
+			i = -1;
+			while (++i < data->number_of_philosophers)
+				kill(data->philos[i].pid, SIGINT);
+			break ;
+		}
+		i++;
+	}
+	sem_close(data->forks);
+	sem_close(data->print);
+	sem_close(data->eat);
+	sem_unlink("/forks");
+	sem_unlink("/print");
+	sem_unlink("/eat");
+}
+
 int	main(int argc, char *argv[])
 {
 	t_data	*data;
-	t_philo	*philos;
-	int		i;
 
 	if (argc != 5 && argc != 6)
 	{
@@ -62,22 +111,10 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 	data = init_data(argv);
-	philos = init_philos(data);
+	init_philos(data);
 	init_sem(data);
 	data->start_time = get_current_time();
-	i = 0;
-	while (i < data->number_of_philosophers)
-	{
-		create_processes(data, i);
-		i++;
-	}
-	while (1)
-	{
-		if (check_all_cases(data))
-		{
-			close_processes(data);
-			return (0);
-		}
-	}
+	create_processes(data);
+	close_processes(data);
 	return (0);
 }
