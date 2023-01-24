@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 23:50:55 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/24 13:00:52 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/24 14:08:45 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*is_dead(void *input)
 		{
 			print_message(philo, "is dead");
 			philo->data->is_dead = 1;
-			return (0);
+			exit(1);
 		}
 		sem_post(philo->data->eat);
 		usleep(1000);
@@ -65,7 +65,11 @@ void	create_processes(t_data *data)
 	while (i < data->number_of_philosophers)
 	{
 		pid = fork();
-		if (pid == 0)
+		if (pid < 0)
+		{
+			printf("Error: fork failed");
+		}
+		else if (pid == 0)
 		{
 			data->philos[i].pid = pid;
 			philo(&data->philos[i]);
@@ -93,12 +97,12 @@ void	close_processes(t_data *data)
 		}
 		i++;
 	}
-	sem_close(data->forks);
-	sem_close(data->print);
-	sem_close(data->eat);
 	sem_unlink("/forks");
 	sem_unlink("/print");
 	sem_unlink("/eat");
+	sem_close(data->eat);
+	sem_close(data->forks);
+	sem_close(data->print);
 }
 
 int	main(int argc, char *argv[])
