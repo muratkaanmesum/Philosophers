@@ -6,7 +6,7 @@
 /*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:45:57 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/26 08:45:12 by kali             ###   ########.fr       */
+/*   Updated: 2023/01/26 08:51:23 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ unsigned long	get_passed_time(unsigned long begin)
 void	print_message(t_philo *philo, char *message)
 {
 	pthread_mutex_lock(&philo->data->print);
-	if (philo->data->is_dead != 0)
+	if (is_dead(philo->data) == 1)
 	{
 		pthread_mutex_unlock(&philo->data->print);
 		return ;
