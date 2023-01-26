@@ -7,7 +7,8 @@ SRCS        :=      utils.c \
                           main.c \
 						  init_structs.c \
 						  philo_actions.c \
-						  check_data.c
+						  check_data.c \
+						  check_assign_dead.c\
 
 OBJS        := $(SRCS:.c=.o)
 

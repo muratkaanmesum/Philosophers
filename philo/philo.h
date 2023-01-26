@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 00:21:56 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/24 12:17:18 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/26 08:42:33 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_data
 	unsigned long	start_time;
 	pthread_mutex_t	print;
 	pthread_mutex_t	eat;
+	pthread_mutex_t	dead;
 	int				is_dead;
 	pthread_mutex_t	*forks;
 }					t_data;
@@ -57,4 +58,6 @@ void				eating(t_philo *philo);
 int					check_all_cases(t_data *data);
 int					check_all_eat(t_data *data);
 int					check_if_dead(t_data *data);
+int					is_dead(t_data *data);
+void				assign_dead_value(t_data *data);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_actions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:45:54 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/24 15:27:26 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/26 08:49:08 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	eating(t_philo *philo)
 	if (philo->data->number_of_philosophers == 1)
 	{
 		pthread_mutex_unlock(philo->left_fork);
-		smart_sleep(philo->data->time_to_eat * 2, philo->data);
+		smart_sleep(philo->data->time_to_die * 2, philo->data);
 		return ;
 	}
 	pthread_mutex_lock(philo->right_fork);
@@ -46,7 +46,7 @@ int	check_if_dead(t_data *data)
 			data->time_to_die)
 		{
 			print_message(&data->philos[i], "Is dead");
-			data->is_dead = 1;
+			assign_dead_value(data);
 			pthread_mutex_unlock(&data->eat);
 			return (1);
 		}
@@ -64,10 +64,16 @@ int	check_all_eat(t_data *data)
 	i = -1;
 	while (++i < data->number_of_philosophers)
 	{
+		//fix data race
+		pthread_mutex_lock(&data->eat);
 		if (data->philos[i].eat_count < data->must_eat)
+		{
+			pthread_mutex_unlock(&data->eat);
 			return (0);
+		}
+		pthread_mutex_unlock(&data->eat);
 	}
-	data->is_dead = 1;
+	assign_dead_value(data);
 	return (1);
 }
 

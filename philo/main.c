@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 23:50:55 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/24 15:28:32 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/26 08:42:27 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*philo(void *data)
 	philo = data;
 	if (philo->id % 2 == 0)
 		usleep(10000);
-	while (!philo->data->is_dead)
+	while (is_dead(philo->data) == 0)
 	{
 		eating(philo);
 		print_message(philo, "Is sleeping");
