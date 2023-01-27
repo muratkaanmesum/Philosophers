@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 23:50:55 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/24 14:08:45 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/27 15:00:09 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	*is_dead(void *input)
 	while (1)
 	{
 		sem_wait(philo->data->eat);
-		if (get_passed_time(philo->last_eat) > (unsigned long)philo->data->time_to_die)
+		if (get_passed_time(philo->last_eat)
+			> (unsigned long)philo->data->time_to_die)
 		{
 			print_message(philo, "is dead");
 			philo->data->is_dead = 1;
@@ -114,6 +115,7 @@ int	main(int argc, char *argv[])
 		printf("Error: wrong number of arguments\n");
 		return (1);
 	}
+	check_data(argc, argv);
 	data = init_data(argv);
 	init_philos(data);
 	init_sem(data);

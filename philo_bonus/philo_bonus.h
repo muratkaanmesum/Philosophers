@@ -6,12 +6,12 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 00:21:56 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/24 13:25:17 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/27 15:03:41 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOSOPHERS_H
-# define PHILOSOPHERS_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 # include <pthread.h>
 # include <semaphore.h>
 # include <signal.h>
@@ -45,7 +45,6 @@ typedef struct s_philo
 	pid_t			pid;
 }					t_philo;
 
-# define DEBUG printf("DEBUG: %s:%d:%s():\n ", __FILE__, __LINE__, __func__);
 int					ft_atoi(char *str);
 void				init_philos(t_data *data);
 t_data				*init_data(char **argv);
@@ -57,4 +56,5 @@ int					check_all_cases(t_data *data);
 void				eating(t_philo *philo);
 void				init_sem(t_data *data);
 int					check_all_eat(t_data *data);
+int					check_data(int argc, char **argv);
 #endif

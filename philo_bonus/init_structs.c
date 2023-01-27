@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_structs.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/27 15:03:50 by mmesum            #+#    #+#             */
+/*   Updated: 2023/01/27 15:04:22 by mmesum           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_bonus.h"
 
 t_data	*init_data(char **argv)
@@ -15,6 +27,7 @@ t_data	*init_data(char **argv)
 		data->must_eat = -1;
 	return (data);
 }
+
 void	init_philos(t_data *data)
 {
 	t_philo	*philos;
