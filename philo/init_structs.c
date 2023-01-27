@@ -6,7 +6,7 @@
 /*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:45:50 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/24 10:05:57 by mmesum           ###   ########.fr       */
+/*   Updated: 2023/01/27 14:35:29 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	init_mutexes(t_data *data)
 	forks = malloc(sizeof(pthread_mutex_t) * data->number_of_philosophers);
 	pthread_mutex_init(&data->print, NULL);
 	pthread_mutex_init(&data->eat, NULL);
+	pthread_mutex_init(&data->dead, NULL);
 	i = -1;
 	while (++i < data->number_of_philosophers)
 		pthread_mutex_init(&forks[i], NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_actions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:45:54 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/26 09:09:26 by kali             ###   ########.fr       */
+/*   Updated: 2023/01/27 13:58:53 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,16 @@ int	check_all_eat(t_data *data)
 	if (data->must_eat == -1)
 		return (0);
 	i = -1;
+	pthread_mutex_lock(&data->eat);
 	while (++i < data->number_of_philosophers)
 	{
-		//fix data race
-		pthread_mutex_lock(&data->eat);
 		if (data->philos[i].eat_count < data->must_eat)
 		{
 			pthread_mutex_unlock(&data->eat);
 			return (0);
 		}
-		pthread_mutex_unlock(&data->eat);
 	}
+	pthread_mutex_unlock(&data->eat);
 	assign_dead_value(data);
 	return (1);
 }

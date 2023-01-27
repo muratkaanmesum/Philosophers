@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mmesum <mmesum@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:45:57 by mmesum            #+#    #+#             */
-/*   Updated: 2023/01/26 08:51:23 by kali             ###   ########.fr       */
+/*   Updated: 2023/01/27 13:09:06 by mmesum           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	smart_sleep(int time, t_data *data)
 {
 	unsigned long	begin;
 
+	(void)data;
 	begin = get_current_time();
-	while (get_passed_time(begin) <= (unsigned long)time && is_dead(data) == 0)
+	while (get_passed_time(begin) <= (unsigned long)time)
 		usleep(100);
 }
